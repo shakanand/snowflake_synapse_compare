@@ -1,11 +1,13 @@
+DECLARE @paramDATE DATE = '1993-07-01'
+
 select
 o_orderpriority,
 count(*) as order_count
 from
 orders
 where
-o_orderdate >= date '[DATE]'
-and o_orderdate < date '[DATE]' + interval '3' month
+o_orderdate >= @paramDATE
+and o_orderdate < DATEADD(m,3,@paramDATE)
 and exists (
 select
 *
