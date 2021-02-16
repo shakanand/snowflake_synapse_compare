@@ -1,3 +1,14 @@
+-- User Master
+CREATE LOGIN etlloaduser01 WITH password='PerfTest@2020';
+CREATE USER etlloaduser01 FROM LOGIN etlloaduser01
+GO
+-- User DB
+CREATE USER etlloaduser01 FROM LOGIN etlloaduser01
+EXEC sp_addrolemember 'db_owner', 'etlloaduser01'
+EXEC sp_addrolemember 'xlargerc',  'etlloaduser01'
+GO
+EXECUTE AS USER = 'etlloaduser01';
+-- 1 minute to load
 COPY INTO [TPCH_SF1000].[_STAGING_CUSTOMER]
 (
 C_CUSTKEY,
@@ -18,6 +29,8 @@ WITH
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
+--20 Mins and 38 seconds to load on DW 3000 / XLRC
+EXECUTE AS USER = 'etlloaduser01';
 COPY INTO [TPCH_SF1000].[_STAGING_LINEITEM]
 (
 L_ORDERKEY,
@@ -46,7 +59,7 @@ WITH
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
-
+EXECUTE AS USER = 'etlloaduser01';
 COPY INTO [TPCH_SF1000]._STAGING_NATION
 (
 N_NATIONKEY,
@@ -63,7 +76,8 @@ WITH
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
-
+EXECUTE AS USER = 'etlloaduser01';
+-- 3 mins and 32 seconds to load
 COPY INTO [TPCH_SF1000]._STAGING_ORDERS
 (
 O_ORDERKEY,
@@ -85,7 +99,7 @@ WITH
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
-
+-- 34 seconds to load
 COPY INTO [TPCH_SF1000]._STAGING_PART
 (
 P_PARTKEY,
@@ -107,7 +121,7 @@ WITH
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
-
+-- 2 mins and 1 sec to load
 COPY INTO [TPCH_SF1000]._STAGING_PARTSUPP
 (
 PS_PARTKEY,
@@ -125,7 +139,7 @@ WITH
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
-
+-- 1 second to run
 COPY INTO [TPCH_SF1000]._STAGING_REGION
 (
 R_REGIONKEY,
@@ -142,6 +156,7 @@ WITH
 )
 GO
 
+-- 8 seconds to run
 COPY INTO [TPCH_SF1000]._STAGING_SUPPLIER
 (
 S_SUPPKEY,
