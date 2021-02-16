@@ -24,13 +24,13 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/CUSTOMER/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
 --20 Mins and 38 seconds to load on DW 3000 / XLRC
-EXECUTE AS USER = 'etlloaduser01';
 COPY INTO [TPCH_SF1000].[_STAGING_LINEITEM]
 (
 L_ORDERKEY,
@@ -54,6 +54,7 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/LINEITEM/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -70,8 +71,8 @@ N_COMMENT
 FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/NATION/*.parquet'
 WITH
 (
-	FILE_TYPE = 'PARQUET'
-	,MAXERRORS = 0
+	FILE_TYPE = 'PARQUET'	
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
@@ -94,6 +95,7 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/ORDERS/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -116,6 +118,7 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/PART/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -134,7 +137,7 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/PARTSUPP/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,MAXERRORS = 0
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
@@ -150,6 +153,7 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/REGION/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -171,6 +175,7 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/SUPPLIER/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
+	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
