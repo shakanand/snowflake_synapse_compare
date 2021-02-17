@@ -4,7 +4,7 @@ select
 o_orderpriority,
 count(*) as order_count
 from
-orders
+[TPCH_SF10000].orders
 where
 o_orderdate >= @paramDATE
 and o_orderdate < DATEADD(m,3,@paramDATE)
@@ -12,7 +12,7 @@ and exists (
 select
 *
 from
-lineitem
+[TPCH_SF10000].lineitem
 where
 l_orderkey = o_orderkey
 and l_commitdate < l_receiptdate

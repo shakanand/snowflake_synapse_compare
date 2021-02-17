@@ -22,7 +22,7 @@ avg(l_extendedprice) as avg_price,
 avg(l_discount) as avg_disc,
 count_big(*) as count_order
 from
-[TPCH_SF1000].[_STAGING_LINEITEM]
+[TPCH_SF10000].[LINEITEM]
 where l_shipdate <= dateadd(day,-@paramDELTA, '1998-12-01')
 group by
 l_returnflag,

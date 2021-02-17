@@ -6,9 +6,9 @@ sum(l_extendedprice*(1-l_discount)) as revenue,
 o_orderdate,
 o_shippriority
 from
-customer,
-orders,
-lineitem
+[TPCH_SF10000].customer,
+[TPCH_SF10000].orders,
+[TPCH_SF10000].lineitem
 where
 c_mktsegment = @paramSEGMENT
 and c_custkey = o_custkey

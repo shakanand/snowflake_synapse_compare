@@ -1,11 +1,13 @@
+DECLARE @paramNATION VARCHAR(20) = 'SAUDI ARABIA'
+
 select
 s_name,
 count(*) as numwait
 from
-supplier,
-lineitem l1,
-orders,
-nation
+[TPCH_SF10000].supplier,
+[TPCH_SF10000].lineitem l1,
+[TPCH_SF10000].orders,
+[TPCH_SF10000].nation
 where
 s_suppkey = l1.l_suppkey
 and o_orderkey = l1.l_orderkey
@@ -15,7 +17,7 @@ and exists (
 select
 *
 from
-lineitem l2
+[TPCH_SF10000].lineitem l2
 where
 l2.l_orderkey = l1.l_orderkey
 and l2.l_suppkey <> l1.l_suppkey
@@ -24,14 +26,14 @@ and not exists (
 select
 *
 from
-lineitem l3
+[TPCH_SF10000].lineitem l3
 where
 l3.l_orderkey = l1.l_orderkey
 and l3.l_suppkey <> l1.l_suppkey
 and l3.l_receiptdate > l3.l_commitdate
 )
 and s_nationkey = n_nationkey
-and n_name = '[NATION]'
+and n_name = @paramNATION
 group by
 s_name
 order by

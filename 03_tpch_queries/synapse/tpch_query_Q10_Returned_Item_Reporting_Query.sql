@@ -1,3 +1,5 @@
+DECLARE @paramDATE DATE = '1994-01-01'
+
 select
 c_custkey,
 c_name,
@@ -8,15 +10,15 @@ c_address,
 c_phone,
 c_comment
 from
-customer,
-orders,
-lineitem,
-nation
+[TPCH_SF10000].customer,
+[TPCH_SF10000].orders,
+[TPCH_SF10000].lineitem,
+[TPCH_SF10000].nation
 where
 c_custkey = o_custkey
 and l_orderkey = o_orderkey
-and o_orderdate >= date '[DATE]'
-and o_orderdate < date '[DATE]' + interval '3' month
+and o_orderdate >= @paramDATE
+and o_orderdate < DATEADD(month,3,@paramDATE)
 and l_returnflag = 'R'
 and c_nationkey = n_nationkey
 group by

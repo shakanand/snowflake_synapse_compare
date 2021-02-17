@@ -12,11 +12,11 @@ s_address,
 s_phone,
 s_comment
 from
-part,
-supplier,
-partsupp,
-nation,
-region
+[TPCH_SF10000].part,
+[TPCH_SF10000].supplier,
+[TPCH_SF10000].partsupp,
+[TPCH_SF10000].nation,
+[TPCH_SF10000].region
 where
 p_partkey = ps_partkey
 and s_suppkey = ps_suppkey
@@ -29,8 +29,8 @@ and ps_supplycost = (
 select 
 min(ps_supplycost)
 from
-partsupp, supplier,
-nation, region
+[TPCH_SF10000].partsupp, [TPCH_SF10000].supplier,
+[TPCH_SF10000].nation,   [TPCH_SF10000].region
 where
 p_partkey = ps_partkey
 and s_suppkey = ps_suppkey

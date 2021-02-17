@@ -1,15 +1,14 @@
--- User Master
-CREATE LOGIN etlloaduser01 WITH password='PerfTest@2020';
-CREATE USER etlloaduser01 FROM LOGIN etlloaduser01
-GO
--- User DB
-CREATE USER etlloaduser01 FROM LOGIN etlloaduser01
-EXEC sp_addrolemember 'db_owner', 'etlloaduser01'
-EXEC sp_addrolemember 'xlargerc',  'etlloaduser01'
-GO
-EXECUTE AS USER = 'etlloaduser01';
+-- Run in UserDB DW3000
+
 -- 1 minute to load
-COPY INTO [TPCH_SF1000].[_STAGING_CUSTOMER]
+
+--tpchsf sample data - very small dataset
+--tpchsf1000 - large
+--tpchsf10000 - very large
+
+
+EXECUTE AS USER = 'etlloaduser01';
+COPY INTO [TPCH_SF10000].[_STAGING_CUSTOMER]
 (
 C_CUSTKEY,
 C_NAME,
@@ -24,14 +23,15 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/CUSTOMER/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
 --20 Mins and 38 seconds to load on DW 3000 / XLRC
-COPY INTO [TPCH_SF1000].[_STAGING_LINEITEM]
+EXECUTE AS USER = 'etlloaduser01';
+COPY INTO [TPCH_SF10000].[_STAGING_LINEITEM]
 (
 L_ORDERKEY,
 L_PARTKEY,
@@ -54,14 +54,14 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/LINEITEM/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
 EXECUTE AS USER = 'etlloaduser01';
-COPY INTO [TPCH_SF1000]._STAGING_NATION
+COPY INTO [TPCH_SF10000]._STAGING_NATION
 (
 N_NATIONKEY,
 N_NAME,
@@ -72,14 +72,14 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/NATION/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'	
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')	,MAXERRORS = 0
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
 EXECUTE AS USER = 'etlloaduser01';
 -- 3 mins and 32 seconds to load
-COPY INTO [TPCH_SF1000]._STAGING_ORDERS
+COPY INTO [TPCH_SF10000]._STAGING_ORDERS
 (
 O_ORDERKEY,
 O_CUSTKEY,
@@ -95,14 +95,15 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/ORDERS/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
 -- 34 seconds to load
-COPY INTO [TPCH_SF1000]._STAGING_PART
+EXECUTE AS USER = 'etlloaduser01';
+COPY INTO [TPCH_SF10000]._STAGING_PART
 (
 P_PARTKEY,
 P_NAME,
@@ -118,14 +119,15 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/PART/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
 -- 2 mins and 1 sec to load
-COPY INTO [TPCH_SF1000]._STAGING_PARTSUPP
+EXECUTE AS USER = 'etlloaduser01';
+COPY INTO [TPCH_SF10000]._STAGING_PARTSUPP
 (
 PS_PARTKEY,
 PS_SUPPKEY,
@@ -137,13 +139,15 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/PARTSUPP/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')	,MAXERRORS = 0
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
 GO
 -- 1 second to run
-COPY INTO [TPCH_SF1000]._STAGING_REGION
+EXECUTE AS USER = 'etlloaduser01';
+COPY INTO [TPCH_SF10000]._STAGING_REGION
 (
 R_REGIONKEY,
 R_NAME,
@@ -153,7 +157,7 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/REGION/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -161,7 +165,8 @@ WITH
 GO
 
 -- 8 seconds to run
-COPY INTO [TPCH_SF1000]._STAGING_SUPPLIER
+EXECUTE AS USER = 'etlloaduser01';
+COPY INTO [TPCH_SF10000]._STAGING_SUPPLIER
 (
 S_SUPPKEY,
 S_NAME,
@@ -175,8 +180,28 @@ FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/SUPPLIER/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Storage Account Key', SECRET='ZBQcEvMbcj7ToOPYdTGhLmxCwBntOAXv5iKTvJG9YY97T0UxFzlC6RHyG62MDW+iGkI/6hheVckqibxsyLG4/A==')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
+GO
+
+SELECT TableName,RowCount1,CAST((RowCount1/1000000.0) AS NUMERIC(12,2)) as Million_Rows FROM 
+(
+SELECT '_STAGING_CUSTOMER' as TableName,COUNT_BIG(*) as RowCount1 FROM [TPCH_SF10000].[_STAGING_CUSTOMER]
+UNION ALL
+SELECT '_STAGING_LINEITEM' as TableName,COUNT_BIG(*) as RowCount1 FROM [TPCH_SF10000].[_STAGING_LINEITEM]
+UNION ALL
+SELECT '_STAGING_NATION' as TableName,COUNT_BIG(*) as RowCount1   FROM [TPCH_SF10000].[_STAGING_NATION]
+UNION ALL
+SELECT '_STAGING_ORDERS' as TableName,COUNT_BIG(*) as RowCount1   FROM [TPCH_SF10000].[_STAGING_ORDERS]
+UNION ALL
+SELECT '_STAGING_PART' as TableName,COUNT_BIG(*) as RowCount1     FROM [TPCH_SF10000].[_STAGING_PART]
+UNION ALL
+SELECT '_STAGING_PARTSUPP' as TableName,COUNT_BIG(*) as RowCount1 FROM [TPCH_SF10000].[_STAGING_PARTSUPP]
+UNION ALL
+SELECT '_STAGING_REGION' as TableName,COUNT_BIG(*) as RowCount1   FROM [TPCH_SF10000].[_STAGING_REGION]
+UNION ALL
+SELECT '_STAGING_SUPPLIER' as TableName,COUNT_BIG(*) as RowCount1 FROM [TPCH_SF10000].[_STAGING_SUPPLIER]
+) x

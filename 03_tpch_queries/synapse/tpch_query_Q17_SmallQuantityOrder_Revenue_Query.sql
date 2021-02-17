@@ -1,17 +1,20 @@
+DECLARE @paramBRAND			VARCHAR(20) ='Brand#23'
+DECLARE @paramCONTAINER		VARCHAR(20) = 'MED BOX'
+
 select
 sum(l_extendedprice) / 7.0 as avg_yearly
 from
-lineitem,
-part
+[TPCH_SF10000].lineitem,
+[TPCH_SF10000].part
 where
 p_partkey = l_partkey
-and p_brand = '[BRAND]'
-and p_container = '[CONTAINER]'
+and p_brand = @paramBRAND
+and p_container = @paramCONTAINER
 and l_quantity < (
 select
 0.2 * avg(l_quantity)
 from
-lineitem
+[TPCH_SF10000].lineitem
 where
 l_partkey = p_partkey
 );
