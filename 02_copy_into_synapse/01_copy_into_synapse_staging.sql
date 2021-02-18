@@ -2,9 +2,12 @@
 
 -- 1 minute to load
 
---tpchsf sample data - very small dataset
---tpchsf1000 - large
---tpchsf10000 - very large
+
+/*
+Connection String    - BlobEndpoint=https://tpchdata.blob.core.windows.net/;QueueEndpoint=https://tpchdata.queue.core.windows.net/;FileEndpoint=https://tpchdata.file.core.windows.net/;TableEndpoint=https://tpchdata.table.core.windows.net/;SharedAccessSignature=sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D
+SAS Token            - ?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D
+Blob Service SAS URL - https://tpchdata.blob.core.windows.net/?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D
+*/
 
 
 EXECUTE AS USER = 'etlloaduser01';
@@ -19,11 +22,11 @@ C_ACCTBAL,
 C_MKTSEGMENT,
 C_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/CUSTOMER/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/CUSTOMER/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -50,11 +53,11 @@ L_SHIPINSTRUCT,
 L_SHIPMODE,
 L_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/LINEITEM/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/LINEITEM/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -68,11 +71,11 @@ N_NAME,
 N_REGIONKEY,
 N_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/NATION/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/NATION/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'	
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
 )
@@ -91,11 +94,11 @@ O_CLERK,
 O_SHIPPRIORITY,
 O_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/ORDERS/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/ORDERS/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -115,11 +118,11 @@ P_CONTAINER,
 P_RETAILPRICE,
 P_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/PART/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/PART/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -135,11 +138,11 @@ PS_AVAILQTY,
 PS_SUPPLYCOST,
 PS_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/PARTSUPP/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/PARTSUPP/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -153,11 +156,11 @@ R_REGIONKEY,
 R_NAME,
 R_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/REGION/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/REGION/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
@@ -176,11 +179,11 @@ S_PHONE,
 S_ACCTBAL,
 S_COMMENT
 )
-FROM 'https://tpchsf100.dfs.core.windows.net/tpchsf1000/SUPPLIER/*.parquet'
+FROM 'https://tpchdata.dfs.core.windows.net/tpch-sf10000/*.parquet'
 WITH
 (
 	FILE_TYPE = 'PARQUET'
-	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlp&se=2022-12-31T14:03:27Z&st=2021-02-16T06:03:27Z&spr=https&sig=ChA4k6kC2puIlGoTczmLImCd1edYjQ7h1H1ch4vmGaE%3D')
+	,CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2020-02-10&ss=bfqt&srt=sco&sp=rlpx&se=2023-12-30T07:54:13Z&st=2021-02-17T23:54:13Z&spr=https&sig=w67IPYYI%2BRvxD6Iy9cUBRGo6WmI0d1yVl3tYZlEAReQ%3D')
 	,MAXERRORS = 0
 	,COMPRESSION = 'snappy'
 	,IDENTITY_INSERT = 'OFF'
