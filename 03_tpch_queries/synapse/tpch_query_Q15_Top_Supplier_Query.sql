@@ -1,14 +1,17 @@
-create view revenue[STREAM_ID] (supplier_no, total_revenue) as
+WITH revenue_STREAM_ID (supplier_no, total_revenue) as
+(
 select
 l_suppkey,
 sum(l_extendedprice * (1 - l_discount))
 from
-lineitem
+[TPCH_SF1000].lineitem
 where
-l_shipdate >= date '[DATE]'
-and l_shipdate < date '[DATE]' + interval '3' month
+l_shipdate >= '1996-01-01'
+and l_shipdate < DATEADD(m,3,'1996-01-01')
 group by
-l_suppkey;
+l_suppkey
+)
+
 select
 s_suppkey,
 s_name,
@@ -16,16 +19,15 @@ s_address,
 s_phone,
 total_revenue
 from
-supplier,
-revenue[STREAM_ID]
+[TPCH_SF1000].supplier,
+revenue_STREAM_ID
 where
 s_suppkey = supplier_no
 and total_revenue = (
 select
 max(total_revenue)
 from
-revenue[STREAM_ID]
+revenue_STREAM_ID
 )
 order by
 s_suppkey;
-drop view revenue[STREAM_ID];

@@ -2,6 +2,8 @@ DECLARE @paramSIZE   INT = 15
 DECLARE @paramTYPE   VARCHAR(20) = '%BRASS'
 DECLARE @paramREGION VARCHAR(20) = 'EUROPE'
 
+
+
 select
 s_acctbal,
 s_name,
@@ -12,11 +14,11 @@ s_address,
 s_phone,
 s_comment
 from
-part,
-supplier,
-partsupp,
-nation,
-region
+[TPCH_SF1000].part,
+[TPCH_SF1000].supplier,
+[TPCH_SF1000].partsupp,
+[TPCH_SF1000].nation,
+[TPCH_SF1000].region
 where
 p_partkey = ps_partkey
 and s_suppkey = ps_suppkey
@@ -29,8 +31,8 @@ and ps_supplycost = (
 select 
 min(ps_supplycost)
 from
-partsupp, supplier,
-nation, region
+[TPCH_SF1000].partsupp, [TPCH_SF1000].supplier,
+[TPCH_SF1000].nation, [TPCH_SF1000].region
 where
 p_partkey = ps_partkey
 and s_suppkey = ps_suppkey
